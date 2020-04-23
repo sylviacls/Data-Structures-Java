@@ -12,6 +12,7 @@ public class DoubleLinkedList<T> {
 
         node.setNext(this.head);
         node.setPrevious(null);
+
         if(this.head != null) {
             this.head.setPrevious(node);
         }
@@ -27,12 +28,18 @@ public class DoubleLinkedList<T> {
 	 * @param node
 	 */
     public void addToEnd(Node<T> node) {
-        if(this.tail == null) return;
-
+        
         node.setPrevious(tail);
         node.setNext(null);
 
-        this.tail.setNext(node);
+        if(this.tail != null) {
+            this.tail.setNext(node);
+        }
+
+        if(this.head == null) {
+            this.head = node;
+        }
+
         this.tail = node;
         this.size++;
     }
@@ -44,6 +51,11 @@ public class DoubleLinkedList<T> {
         if(isEmpty()) return null;
 
         Node<T> removedNode = this.head;
+        
+        //check if there's just one node in the list
+        if(head.getNext() == null) {
+            this.tail = null;
+        } 
         this.head = head.getNext();
         this.head.setPrevious(null);
         this.size--;
@@ -59,6 +71,11 @@ public class DoubleLinkedList<T> {
         if(isEmpty()) return null;
 
         Node<T> removedNode = this.tail;
+
+        //check if there's just one node in the list
+        if(this.tail.getPrevious() == null) {
+            this.head = null;
+        }
         this.tail = tail.getPrevious();
         this.tail.setNext(null);
         this.size--;
@@ -101,7 +118,7 @@ public class DoubleLinkedList<T> {
         System.out.print("Head = ");
         while(current != null) {
             System.out.print(current.getData());
-            System.out.print(" --> ");
+            System.out.print(" <==> ");
             current = current.getNext();
         }
         System.out.println("null");
@@ -116,7 +133,7 @@ public class DoubleLinkedList<T> {
 
     public static void main(String[] args) {
         DoubleLinkedList<String> linkedStrings = new DoubleLinkedList<String>();
-        linkedStrings.addToFront(new Node<String>("Sylvia"));
+        linkedStrings.addToEnd(new Node<String>("Sylvia"));
         linkedStrings.addToFront(new Node<String>("Gabriella"));
         linkedStrings.addToFront(new Node<String>("Felipe"));
 
