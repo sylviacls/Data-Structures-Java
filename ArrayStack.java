@@ -4,12 +4,9 @@ import java.util.EmptyStackException;
 public class ArrayStack<E> {
     private E[] stack;
     private int top; // next position avaiable in stack
-    private Class classType;
-
 
     public ArrayStack(Class<E> classType) {
         this.stack = (E[]) Array.newInstance(classType, 2);
-        this.classType = classType;
     }
 
     /**
@@ -29,7 +26,8 @@ public class ArrayStack<E> {
             this.stack[top] = item;
             top++;
         } else {
-            E[] newArray = (E[]) Array.newInstance(this.classType, this.stack.length*2);
+            Class<?> classType = this.queue.getClass().getComponentType();
+            E[] newArray = (E[]) Array.newInstance(classType, this.stack.length*2);
             System.arraycopy(stack, 0, newArray, 0, this.stack.length);
             this.stack = newArray;
 
